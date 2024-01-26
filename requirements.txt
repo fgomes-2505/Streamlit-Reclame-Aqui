@@ -1,0 +1,6 @@
+pandas
+numpy
+plotly.express
+datetime
+plotly.graph_objects
+streamlit
