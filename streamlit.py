@@ -16,51 +16,6 @@ df_nagem = pd.read_csv('RECLAMEAQUI_NAGEM.csv')
 df_ibyte = pd.read_csv('RECLAMEAQUI_IBYTE.csv')
 
 
-# In[84]:
-
-
-# Display Hapvida
-display(df_hapvida)
-
-
-# In[85]:
-
-
-# Display Nagem
-display(df_nagem)
-
-
-# In[86]:
-
-
-# Display Ibyte
-display(df_ibyte)
-
-
-# In[87]:
-
-
-# Verificando Info Hapvida
-df_hapvida.info()
-
-
-# In[88]:
-
-
-# Verificando Info Nagem
-df_nagem.info()
-
-
-# In[89]:
-
-
-# Verificando Info Ibyte
-df_ibyte.info()
-
-
-# In[90]:
-
-
 # Criando Coluna Empresa em cada Dataset
 df_hapvida['Empresa'] = 'Hapvida'
 df_nagem['Empresa'] = 'Nagem'
@@ -68,8 +23,6 @@ df_ibyte['Empresa'] = 'Ibyte'
 
 # Unificando Datasets
 df = pd.concat([df_hapvida,df_nagem,df_ibyte])
-display(df)
-
 
 # ### Série Temporal
 
@@ -160,7 +113,6 @@ def state(x):
     else:
         return split[-1].strip()
 df['Estado'] = df['LOCAL'].apply(state)
-display(df)
 
 
 # In[96]:
