@@ -1,7 +1,14 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# ### Análises Iniciais
+
+# In[83]:
+
+
 # Importando Bibliotecas
 import pandas as pd
 import plotly.express as px
-import streamlit as st
 
 # Lendo Arquivos
 df_hapvida = pd.read_csv('RECLAMEAQUI_HAPVIDA.csv')
@@ -9,49 +16,49 @@ df_nagem = pd.read_csv('RECLAMEAQUI_NAGEM.csv')
 df_ibyte = pd.read_csv('RECLAMEAQUI_IBYTE.csv')
 
 
-# In[300]:
+# In[84]:
 
 
 # Display Hapvida
 display(df_hapvida)
 
 
-# In[301]:
+# In[85]:
 
 
 # Display Nagem
 display(df_nagem)
 
 
-# In[302]:
+# In[86]:
 
 
 # Display Ibyte
 display(df_ibyte)
 
 
-# In[303]:
+# In[87]:
 
 
 # Verificando Info Hapvida
 df_hapvida.info()
 
 
-# In[304]:
+# In[88]:
 
 
 # Verificando Info Nagem
 df_nagem.info()
 
 
-# In[305]:
+# In[89]:
 
 
 # Verificando Info Ibyte
 df_ibyte.info()
 
 
-# In[306]:
+# In[90]:
 
 
 # Criando Coluna Empresa em cada Dataset
@@ -66,21 +73,21 @@ display(df)
 
 # ### Série Temporal
 
-# In[307]:
+# In[91]:
 
 
 # Convertendo Para Datetime Coluna Tempo
 df['TEMPO'] = pd.to_datetime(df['TEMPO'])
 
 
-# In[308]:
+# In[92]:
 
 
 # Groupby DataFrame
 freq_df = df.groupby('ANO').size().reset_index(name='Frequência')
 
 # Create a line chart with Plotly
-fig = go.Figure(data=go.Scatter(x=freq_df['ANO'], y=freq_df['Frequência'], line=dict(color='green')))
+fig = px.line(x=freq_df['ANO'], y=freq_df['Frequência'], color_discrete_sequence=['green'])
 
 
 # Adding labels and title
@@ -94,14 +101,14 @@ fig.update_layout(
 fig.show()
 
 
-# In[309]:
+# In[93]:
 
 
 # Groupby DataFrame
 freq_df = df.groupby('MES').size().reset_index(name='Frequência')
 
 # Create a line chart with Plotly
-fig = go.Figure(data=go.Scatter(x=freq_df['MES'], y=freq_df['Frequência'], line=dict(color='green')))
+fig = px.line(x=freq_df['MES'], y=freq_df['Frequência'], color_discrete_sequence=['green'])
 
 # Adding labels and title
 fig.update_layout(
@@ -114,14 +121,14 @@ fig.update_layout(
 fig.show()
 
 
-# In[310]:
+# In[94]:
 
 
 # Groupby DataFrame
 freq_df = df.groupby('DIA').size().reset_index(name='Frequência')
 
 # Create a line chart with Plotly
-fig = go.Figure(data=go.Scatter(x=freq_df['DIA'], y=freq_df['Frequência'], line=dict(color='green')))
+fig = px.line(x=freq_df['DIA'], y=freq_df['Frequência'], color_discrete_sequence=['green'])
 
 # Adding labels and title
 fig.update_layout(
@@ -136,7 +143,7 @@ fig.show()
 
 # ### Reclamações Por Estado
 
-# In[311]:
+# In[95]:
 
 
 # Função Estado
@@ -156,17 +163,15 @@ df['Estado'] = df['LOCAL'].apply(state)
 display(df)
 
 
-# In[312]:
+# In[96]:
 
-
-import plotly.graph_objects as go
 
 # Groupby DataFrame
 freq_df = df.groupby('Estado').size().reset_index(name='Reclamações')
 freq_df = freq_df.sort_values(by='Reclamações', ascending=True)
 
 # Create bar chart
-fig = go.Figure(data=[go.Bar(x=freq_df['Reclamações'], y=freq_df['Estado'],orientation='h', marker=dict(color='red'))])
+fig = px.bar(x=freq_df['Reclamações'], y=freq_df['Estado'], orientation='h', color_discrete_sequence=['red'])
 
 # Update layout (optional)
 fig.update_layout(title='Qtd Reclamações x Estado', xaxis_title='Estado', yaxis_title='Qtd Reclamações')
@@ -177,7 +182,7 @@ fig.show()
 
 # ### Reclamações Por Status
 
-# In[313]:
+# In[97]:
 
 
 import plotly.graph_objects as go
@@ -187,7 +192,7 @@ freq_df = df.groupby('STATUS').size().reset_index(name='Reclamações')
 freq_df = freq_df.sort_values(by='Reclamações', ascending=False)
 
 # Create bar chart
-fig = go.Figure(data=[go.Bar(x=freq_df['STATUS'], y=freq_df['Reclamações'], marker=dict(color='blue'))])
+fig = px.bar(x=freq_df['STATUS'], y=freq_df['Reclamações'], color_discrete_sequence=['blue'])
 
 # Update layout (optional)
 fig.update_layout(title='Qtd Reclamações x Status', xaxis_title='Status', yaxis_title='Qtd Reclamações')
@@ -198,20 +203,18 @@ fig.show()
 
 # ### Tamanho do Texto
 
-# In[314]:
+# In[98]:
 
 
 # Criando Coluna Tamanho Texto
 df['Tamanho Texto Desc'] = df['DESCRICAO'].apply(lambda x: len(x.strip()))
 
 
-# In[315]:
+# In[99]:
 
-
-import plotly.graph_objects as go
 
 # Create histogram
-fig = go.Figure(data=[go.Histogram(x=df['Tamanho Texto Desc'], marker=dict(color='orange'))])
+fig = px.histogram(x=df['Tamanho Texto Desc'], color_discrete_sequence=['orange'])
 
 # Update layout (optional)
 fig.update_layout(title='Histograma Tamanho Texto', xaxis_title='Tamanho Texto', yaxis_title='Frequência')
@@ -222,10 +225,11 @@ fig.show()
 
 # ### Streamlit
 
-# In[316]:
+# In[100]:
 
 
 # streamlit run appstreamlitguilhermeterceiro.py
+import streamlit as st
 st.title('Reclame Aqui')
 
 
